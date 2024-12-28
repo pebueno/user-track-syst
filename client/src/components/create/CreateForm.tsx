@@ -13,7 +13,7 @@ const CreateForm = ({ onSubmit }: Props) => {
       url: `${process.env.REACT_APP_SERVER_BASE_URL}/users`,
       method: "POST",
     },
-    { manual: true }
+    { manual: true },
   );
 
   const onFormSubmit = async (data: FieldValues) => {
@@ -47,6 +47,11 @@ const CreateForm = ({ onSubmit }: Props) => {
             {...register("lastName")}
           />
           <TextField label="Email" variant="outlined" {...register("email")} />
+          <TextField
+            type="date"
+            variant="outlined"
+            {...register("birthday")}
+          />
           <Button variant="contained" type="submit" disabled={loading}>
             Create User
           </Button>

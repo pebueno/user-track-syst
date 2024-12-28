@@ -21,6 +21,7 @@ type Props = {
     first_name: string;
     last_name: string;
     email: string;
+    birthday: string;
   }[];
 };
 
@@ -31,6 +32,7 @@ const UsersTable = ({ users }: Props) => (
         <TableRow>
           <TableHeaderCell>Name</TableHeaderCell>
           <TableHeaderCell align="right">Email</TableHeaderCell>
+          <TableHeaderCell align="right">Birthday</TableHeaderCell>
         </TableRow>
       </TableHead>
       <TableBody>
@@ -43,6 +45,7 @@ const UsersTable = ({ users }: Props) => (
               {`${user.first_name} ${user.last_name}`}
             </TableCell>
             <TableCell align="right">{user.email}</TableCell>
+            <TableCell align="right">{user.birthday}</TableCell>
           </TableRow>
         ))}
       </TableBody>

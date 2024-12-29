@@ -7,7 +7,8 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import IconButton from "@mui/material/IconButton";
 import EditIcon from "@mui/icons-material/Edit";
-import { Navigate, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
+
 const TableHeaderCell = (props: Record<any, any>) => (
   <TableCell
     sx={{

@@ -1,57 +1,26 @@
 import {
   Box,
   Button,
-  CircularProgress,
   IconButton,
   TextField,
   Typography,
 } from "@mui/material";
-import useAxios from "axios-hooks";
 import { useNavigate, useParams } from "react-router";
 import { useEffect, useState } from "react";
 import MessageContainer from "../home/MessageContainer";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { useUsers } from "../contexts/UsersContext";
 
 const UserDetails = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-
-  const [{ data, loading, error }, refetch] = useAxios(
-    `${process.env.REACT_APP_SERVER_BASE_URL}/users/${id}`,
-  );
-
-  const [{ loading: updating }, executePut] = useAxios(
-    {
-      url: `${process.env.REACT_APP_SERVER_BASE_URL}/users/${id}`,
-      method: "PUT",
-    },
-    { manual: true },
-  );
-
+  const { updateUser, getUserById } = useUsers();
   const [user, setUser] = useState<any>();
 
   useEffect(() => {
-    if (data) setUser(data);
-  }, [data]);
-
-  if (loading) {
-    return (
-      <MessageContainer>
-        <CircularProgress />
-      </MessageContainer>
-    );
-  }
-
-  if (error) {
-    return (
-      <MessageContainer>
-        <Box>Error loading users</Box>
-        <Button variant="contained" onClick={() => refetch()}>
-          Retry
-        </Button>
-      </MessageContainer>
-    );
-  }
+    const user = getUserById(Number(id));
+    if (user) setUser(user);
+  }, [id, getUserById]);
 
   if (!user) {
     return (
@@ -62,12 +31,10 @@ const UserDetails = () => {
   }
 
   const handleSave = async () => {
-    try {
-      await executePut({ data: user });
+    if (user) {
+      await updateUser(user);
       alert("User updated successfully!");
       navigate("/");
-    } catch (err) {
-      alert("Failed to update user");
     }
   };
 
@@ -122,7 +89,7 @@ const UserDetails = () => {
       />
 
       <Button variant="contained" onClick={handleSave} sx={{ mt: 2 }}>
-        {updating ? "Saving..." : "Save Changes"}
+        Save Changes
       </Button>
     </Box>
   );

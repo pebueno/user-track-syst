@@ -15,6 +15,18 @@ router.get("/users", (req: Request, res: Response) => {
   });
 });
 
+router.get("/users/:id", (req: Request, res: Response) => {
+  const { id } = req.params;
+
+  const user = db.prepare("SELECT * FROM users WHERE id = ?").get(id);
+
+  if (!user) {
+    res.status(400).json({ error: "User not found"})
+  }
+
+  res.json(user);
+});
+
 router.post("/users", (req: Request, res: Response) => {
   if (!req.body.firstName || !req.body.lastName || !req.body.email || !req.body.birthday) {
     res.sendStatus(400);
